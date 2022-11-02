@@ -1,0 +1,216 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <set>
+#include <iterator>
+#include <algorithm>
+
+void randarr(float* arr, int n) {
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % 10 - 5;
+    }
+}
+
+void printarr(float* arr, int n) {
+    for (int i = 0; i < n; i++) {
+        std::cout << arr[i] << " ";
+    }
+}
+void randarr2(float* arr, int n) {
+    int count = 0;
+    for (int i = 0; i < n - 1; ++i)
+    {
+        for (int j = 0; j < n - i - 1; ++j)
+        {
+            if (arr[j] <= -1) {
+                std::swap(arr[j], arr[j + 1]);
+                count++;
+            }
+        }
+    }
+}
+void sumpair(float* arr, int n) {
+    int sumpairelements = 1;
+    for (int i = 0; i < n; i++) {
+        if (i % 2 == 0) {
+            sumpairelements *= arr[i];
+        }
+    }
+    std::cout << std::endl << "Добуток елементiв на парних мiсцях = " << sumpairelements;
+}
+
+void sumnegtoneg(float* arr, int n) {
+    int sum = 0, acc = 0;
+    bool started = false;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == 0) {
+            if (!started) {
+                acc = 0;
+                started = true;
+            }
+            else {
+                sum += acc;
+                acc = arr[i];
+            }
+        }
+        else
+            acc += arr[i];
+    }
+    std::cout << sum;
+}
+
+
+int main()
+{
+    //Завдання 3
+    setlocale(LC_ALL, "Ukrainian");
+    std::string S, T; // declare string variables
+    std::vector<std::string> v;
+    std::vector<std::string> vu;
+    std::vector<std::string> vu1;
+    std::set<std::string> vuv;
+    getline(std::cin, S); // use getline() function to read a line of string and store into S variable.
+
+    std::stringstream X(S); // X is an object of stringstream that references the S string
+
+    // use while loop to check the getline() function condition
+    while (getline(X, T, ' '))
+    {
+        // cout << T << endl; // print split string
+        v.push_back(T);
+    }
+    //Цикл з добавленням елементів в вектор і сет пропускаючи пробіли
+    for (std::string n : v)
+    {
+        for (std::string s : v)
+        {
+            if (n == s)
+            {
+            }
+            else if (n.empty()) {
+            }
+            else {
+                vu.push_back(n);
+                vu1.push_back(n);
+                vuv.insert(n);
+                break;
+            }
+        }
+    }
+
+    std::istringstream iss(S);
+    bool hasAdjacentSymbols = false;
+    for (std::istream_iterator<std::string> it(iss); it != std::istream_iterator<std::string>(); ++it) {
+        if (std::adjacent_find(it->begin(), it->end()) == it->end()) {
+            std::cout << *it << ' ';
+            hasAdjacentSymbols = true;
+            continue;
+        }
+    }
+    if (!hasAdjacentSymbols) {
+        std::cout << "Речення складається тільки з слів з подвоєнням" << std::endl;
+    }
+
+    std::cout << std::endl << "Кількіть використаних символів  " << S.length() << std::endl;
+    //Кількість різних слів
+   /* for (const auto& item : vuv) {
+        std::cout << item << "\n";
+    }*/
+    std::cout << "Кількість різних слів   " << vuv.size() << std::endl;
+
+
+    //Завдання 2
+    {
+        setlocale(LC_ALL, "Ukrainian");
+        int  RAD, STO;
+        int k;
+        int k1 = 0;
+        int k2 = 1;
+        int k3 = 0;
+        std::cout << std::endl << "Введіть кількість рядків  ";
+        std::cin >> RAD;
+        std::cout << "Введіть кількість стовпців  ";
+        std::cin >> STO;
+        //створення масиву
+        int** arr = new int* [RAD];
+        for (int i = 0; i < RAD; i++)
+        {
+            arr[i] = new int[STO];
+        }
+        //Заповнення масиву
+        for (int i = 0; i < RAD; i++)
+        {
+            for (int j = 0; j < STO; j++)
+            {
+                std::cout << i + 1 << "." << j + 1 << "  елемент матриці  ";
+                std::cin >> k;
+                arr[i][j] = k;
+            }
+        }
+        //Виведення масиву
+        for (int i = 0; i < RAD; i++)
+        {
+            for (int j = 0; j < STO; j++)
+            {
+                std::cout << arr[i][j] << "\t";
+            }
+            std::cout << std::endl;// Перехід на новий рядок
+        }
+        //Найдовша сері однакових елементів
+        std::cout << std::endl << "Найдовша сері однакових елементів у рядку під номером  ";
+        for (int i = 0; i < RAD; i++)
+        {
+            for (int j = 0; j < STO; j++)
+            {
+                if (arr[i][j] == arr[i][j + 1])
+                    k2 += 1;
+                else
+                    k2 = 0;
+                if (k2 > 0) {
+                    k3 = i + 1;
+                }
+            }
+        }
+        std::cout << k3 << std::endl;
+        //Кількість стовпців в яких хоч один елемент = 0
+        for (int j = 0; j < STO; j++)
+        {
+            for (int i = 0; i < RAD; i++)
+            {
+                if (arr[i][j] == 0)
+                {
+                    k1 += 1;
+                    break;
+                }
+            }
+        }
+        std::cout << "Кількість стовпців в яких хоч один елемент = 0" << std::endl << k1 << std::endl;
+        //Видалення масивів з оперативної памяті
+        for (int i = 0; i < RAD; i++)
+        {
+            delete[] arr[i];
+        }
+        delete[] arr;
+    }
+    //Завдання 1
+    {
+        srand(time(NULL));
+        setlocale(LC_ALL, "Ukrainian");
+        int n;
+        std::cout <<std::endl<< "Введiть кiлькiсть елементiв масиву: ";
+        std::cin >> n;
+        float* arr = new float[n];
+        randarr(arr, n);
+        std::cout << "Масив :" << std::endl;
+        printarr(arr, n);
+        randarr2(arr, n);
+        std::cout << std::endl << "Масив :" << std::endl;
+        printarr(arr, n);
+        sumpair(arr, n);
+        std::cout << "\nЗнаходимо суму елементiв мiж першим i останнiм нульовим елементом  ";
+        sumnegtoneg(arr, n);
+        delete[] arr;
+    }
+    return 0;
+}
